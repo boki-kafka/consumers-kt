@@ -65,7 +65,8 @@ class WakeupConsumer {
             put(KEY_DESERIALIZER_CLASS_CONFIG, keyDeSerClass.name)
             put(VALUE_DESERIALIZER_CLASS_CONFIG, valueDeSerClass.name)
             put(GROUP_ID_CONFIG, "group_01")
-//            put(AUTO_OFFSET_RESET_CONFIG, "latest")
+//            put(AUTO_OFFSET_RESET_CONFIG, "latest") // default
+//            put(AUTO_OFFSET_RESET_CONFIG, "earliest")
         }
     }
 }
