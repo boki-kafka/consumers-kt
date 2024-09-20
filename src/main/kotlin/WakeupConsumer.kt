@@ -37,6 +37,7 @@ class WakeupConsumer {
                     mainThread.join()
                 } catch (e: InterruptedException) {
                     logger.error { e.message }
+                    throw RuntimeException(e)
                 }
             })
 
@@ -45,7 +46,7 @@ class WakeupConsumer {
                     val consumerRecords = consumer.poll(Duration.ofMillis(1000))
                     for (record in consumerRecords) {
                         with(record) {
-                            logger.info { "key: ${key()}, value: ${value()}, partition: ${partition()}" }
+                            logger.info { "key: ${key()}, value: ${value()}, partition: ${partition()}, offset: ${offset()}" }
                         }
                     }
                 }
@@ -64,6 +65,7 @@ class WakeupConsumer {
             put(KEY_DESERIALIZER_CLASS_CONFIG, keyDeSerClass.name)
             put(VALUE_DESERIALIZER_CLASS_CONFIG, valueDeSerClass.name)
             put(GROUP_ID_CONFIG, "group_01")
+//            put(AUTO_OFFSET_RESET_CONFIG, "latest")
         }
     }
 }
