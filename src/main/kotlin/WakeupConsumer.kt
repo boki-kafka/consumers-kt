@@ -15,7 +15,7 @@ class WakeupConsumer {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            val topic = "simple-topic"
+            val topic = "pizza-topic"
 
             val props = initConsumerProps(
                 keyDeSerClass = StringDeserializer::class.java,
@@ -46,7 +46,7 @@ class WakeupConsumer {
                     val consumerRecords = consumer.poll(Duration.ofMillis(1000))
                     for (record in consumerRecords) {
                         with(record) {
-                            logger.info { "key: ${key()}, value: ${value()}, partition: ${partition()}, offset: ${offset()}" }
+                            logger.info { "key: ${key()}, partition: ${partition()}, offset: ${offset()}, value: ${value()}" }
                         }
                     }
                 }
@@ -62,9 +62,13 @@ class WakeupConsumer {
             valueDeSerClass: Class<out Deserializer<V>>
         ): Properties = Properties().apply {
             put(BOOTSTRAP_SERVERS_CONFIG, "10.211.55.53:9092")
+            // put(BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
             put(KEY_DESERIALIZER_CLASS_CONFIG, keyDeSerClass.name)
             put(VALUE_DESERIALIZER_CLASS_CONFIG, valueDeSerClass.name)
-            put(GROUP_ID_CONFIG, "group_01")
+            // put(GROUP_ID_CONFIG, "group-01")
+            // put(GROUP_ID_CONFIG, "group-01-static")
+            // put(GROUP_INSTANCE_ID_CONFIG, "3")
+
 //            put(AUTO_OFFSET_RESET_CONFIG, "latest") // default
 //            put(AUTO_OFFSET_RESET_CONFIG, "earliest")
         }
