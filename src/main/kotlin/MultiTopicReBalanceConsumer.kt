@@ -1,10 +1,7 @@
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG
-import org.apache.kafka.clients.consumer.ConsumerConfig.GROUP_ID_CONFIG
-import org.apache.kafka.clients.consumer.ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG
-import org.apache.kafka.clients.consumer.ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG
-import org.apache.kafka.clients.consumer.ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG
+import org.apache.kafka.clients.consumer.ConsumerConfig.*
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.apache.kafka.clients.consumer.RoundRobinAssignor
 import org.apache.kafka.common.errors.WakeupException
 import org.apache.kafka.common.serialization.Deserializer
 import org.apache.kafka.common.serialization.StringDeserializer
@@ -70,6 +67,7 @@ class MultiTopicReBalanceConsumer {
             put(KEY_DESERIALIZER_CLASS_CONFIG, keyDeSerClass.name)
             put(VALUE_DESERIALIZER_CLASS_CONFIG, valueDeSerClass.name)
             put(GROUP_ID_CONFIG, "group-mtopic")
+            put(PARTITION_ASSIGNMENT_STRATEGY_CONFIG, RoundRobinAssignor::class.java.name)
         }
     }
 }
