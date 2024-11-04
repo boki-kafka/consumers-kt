@@ -1,5 +1,6 @@
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.apache.kafka.clients.consumer.ConsumerConfig.*
+import org.apache.kafka.clients.consumer.CooperativeStickyAssignor
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.consumer.RoundRobinAssignor
 import org.apache.kafka.common.errors.WakeupException
@@ -67,7 +68,8 @@ class MultiTopicReBalanceConsumer {
             put(KEY_DESERIALIZER_CLASS_CONFIG, keyDeSerClass.name)
             put(VALUE_DESERIALIZER_CLASS_CONFIG, valueDeSerClass.name)
             put(GROUP_ID_CONFIG, "group-mtopic")
-            put(PARTITION_ASSIGNMENT_STRATEGY_CONFIG, RoundRobinAssignor::class.java.name)
+//            put(PARTITION_ASSIGNMENT_STRATEGY_CONFIG, RoundRobinAssignor::class.java.name)
+            put(PARTITION_ASSIGNMENT_STRATEGY_CONFIG, CooperativeStickyAssignor::class.java.name)
         }
     }
 }
